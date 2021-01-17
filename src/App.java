@@ -16,10 +16,15 @@ public class App {
         boolean using = true;
         int opt;
 
+        limparConsole();
         System.out.print("Digite seu nome:");
         String nomeAdm = teclado.nextLine();
         Laboratorio lab = new Laboratorio(nomeAdm, teclado);
+
+        limparConsole();
         System.out.println("Bem-vindo(a), " + nomeAdm + "!");
+        System.out.print("Digite enter para continuar...");
+        teclado.nextLine();
 
         while (using) {
 

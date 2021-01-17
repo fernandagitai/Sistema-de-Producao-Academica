@@ -12,8 +12,7 @@ public class Colaboradores {
     // alunos de graduação, alunos de mestrado, alunos de doutorado, professores e pesquisadores. 
     // nome, e-mail, um histórico contendo a lista de projetos nos quais este colaborador participou
 
-    String nome, email, funcao;
-    Integer projetosAtivos;
+    String nome, email;
 
     Vector<Projeto> listaProjetos;
     Vector<Publicacoes> listaPublicacoes;
@@ -23,34 +22,23 @@ public class Colaboradores {
         this.email = email;
         this.listaProjetos = new Vector<Projeto>();
         this.listaPublicacoes = new Vector<Publicacoes>();
-
-        this.funcao = funcao; // retirar
-        this.projetosAtivos = 0; // retirar
     }
-    private void limparConsole() {
+    protected void limparConsole() {
         for (int i = 0; i < 100; i++) {
             System.out.println("");
         }
     }
-
-    public void encerrandoProjeto(){
-        this.projetosAtivos--;
-    } // retirar
     
+    public int getNumeroProjetos(){
+        return listaProjetos.size();
+    }
+
     public String getNome(){
         return this.nome;
     }
-    public String getFuncao(){
-        return this.funcao;
-    } //retirar
-    
-    public int getProjetosAtivos(){
-        return this.projetosAtivos;
-    } // retirar
 
     public void associarProjetoColaborador(Projeto projetoAdicionado){
         this.listaProjetos.add(projetoAdicionado);
-        this.projetosAtivos++; //retirar
        
         Collections.sort(this.listaProjetos);
     }
@@ -61,11 +49,7 @@ public class Colaboradores {
 
         Collections.sort(this.listaPublicacoes);
     }
-
-    public int getNumeroProjetos(){
-        return listaProjetos.size();
-    }
-
+ 
     public void consulta(Scanner reader){
         limparConsole();
         System.out.println("####################################");
@@ -79,11 +63,8 @@ public class Colaboradores {
         
         // lista de projetos
         if(listaProjetos.size() > 0){
-            if(funcao.equals("P")){
-                System.out.println("Orientações:");
-            } else {
-                System.out.println("Projetos como colaborador:");
-            }
+            
+            System.out.println("Projetos como colaborador:");
             
             for(int i = 0; i < listaProjetos.size(); i++){
                 System.out.println("    " + listaProjetos.get(i).getTitulo() + " - ANO DE TERMINO: " + listaProjetos.get(i).getTermino());
@@ -111,6 +92,4 @@ public class Colaboradores {
 
     }
     
-    
-
 }

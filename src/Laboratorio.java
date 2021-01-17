@@ -16,9 +16,9 @@ public class Laboratorio {
 
     String nomeAdm;
     static Scanner teclado;
-    static Vector<Projeto> listaProjetos = new Vector<Projeto>();
-    static Vector<Colaboradores> listaColaboradores = new Vector<Colaboradores>();
-    static Vector<Publicacoes> listaPublicacoes = new Vector<Publicacoes>();
+    static Vector<Projeto> listaProjetos;
+    static Vector<Colaboradores> listaColaboradores;
+    static Vector<Publicacoes> listaPublicacoes;
 
     public Laboratorio(String nomeAdm, Scanner tecladoEntrada) {
         teclado = tecladoEntrada;
@@ -74,7 +74,7 @@ public class Laboratorio {
 
         if (!colaboradorAssociado.equals(null) && !projetoAssociado.equals(null)) {
 
-            if (colaboradorAssociado.getFuncao().equals("G") && colaboradorAssociado.getProjetosAtivos() > 0) {
+            if ((colaboradorAssociado instanceof Aluno) && colaboradorAssociado.getNumeroProjetos() > 0) {
                 System.out.println("Um aluno de graduação só pode estar associado a um projeto por vez.");
             } else {
                 colaboradorAssociado.associarProjetoColaborador(projetoAssociado);
@@ -101,7 +101,7 @@ public class Laboratorio {
 
         } else {
             if (projetoMencionado.getStatus().equals("Em andamento")) {
-                if (projetoMencionado.publicacaoExistente()) {
+                if (projetoMencionado.getPublicacoes() > 0) {
                     projetoMencionado.concluir();
                     System.out.println("Projeto concluído.");
 
@@ -272,14 +272,14 @@ public class Laboratorio {
         Integer orientacoes = 0;
 
         for (int j = 0; j < listaColaboradores.size(); j++) {
-            if (listaColaboradores.get(j).getFuncao().equals("P")) {
+            if (listaColaboradores.get(j) instanceof Professor) {
                 orientacoes += listaColaboradores.get(j).getNumeroProjetos();
             }
         }
         System.out.println("Número de orientações:" + orientacoes);
 
         System.out.println("");
-        System.out.println("Digite enter para continuar...");
+        System.out.print("Digite enter para continuar...");
         teclado.nextLine();
 
     }
