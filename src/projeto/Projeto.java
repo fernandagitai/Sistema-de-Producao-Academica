@@ -64,6 +64,10 @@ public class Projeto implements Comparable<Projeto> {
         reader.nextLine();
     }
     
+    public void adicionarPublicacao(Publicacoes publicacaoMencionada){
+        listaPublicacoes.add(publicacaoMencionada);
+    }
+
     public Projeto(String titulo, String objetivo, String descricao, int dataInicio, int dataTermino, String agencia,Float valorFinanciado) {
 
         this.titulo = titulo;

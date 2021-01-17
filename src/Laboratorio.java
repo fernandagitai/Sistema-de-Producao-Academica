@@ -91,7 +91,7 @@ public class Laboratorio {
 
         limparConsole();
 
-        System.out.print("Digite o nome do projeto.");
+        System.out.print("Digite o nome do projeto: ");
         String nomeProjeto = teclado.nextLine();
 
         Projeto projetoMencionado = getProjeto(nomeProjeto, listaProjetos);
@@ -113,6 +113,8 @@ public class Laboratorio {
                 System.out.println("O projeto não está em andamento para ser concluído.");
             }
         }
+        System.out.print("Digite enter para continuar...");
+        teclado.nextLine();
 
     }
 
@@ -211,6 +213,7 @@ public class Laboratorio {
                     "Este projeto de pesquisa não existe neste laboratório. Nessa publicação será considerada sem projeto de pesquisa associado.");
         }
         novaPublicacao.associarProjetoPublicacao(projetoMencionado);
+        projetoMencionado.adicionarPublicacao(novaPublicacao);
         // sugestão: passar a classe e não o nome
 
         limparConsole();
@@ -266,7 +269,7 @@ public class Laboratorio {
         System.out.println("Número de projetos 'Em elaboração': " + elaboracao);
         System.out.println("Número de projetos 'Em andamento': " + andamento);
         System.out.println("Número de projetos concluídos: " + concluido);
-        System.out.println("Número de projetos:" + listaColaboradores.size());
+        System.out.println("Número de projetos:" + listaProjetos.size());
         System.out.println("Número de publicações:" + listaPublicacoes.size());
 
         Integer orientacoes = 0;
