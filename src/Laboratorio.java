@@ -6,7 +6,7 @@ import projeto.*;
 import publicacoes.*;
 import colaboradores.*;
 
-public class Laboratorio {
+public class Laboratorio { // padrão Facade
 
     static void limparConsole() {
         for (int i = 0; i < 100; i++) {
@@ -28,7 +28,7 @@ public class Laboratorio {
         listaPublicacoes = new Vector<Publicacoes>();
     }
 
-    static Colaboradores getColaborador() {
+    static Colaboradores getColaborador() { // padrão fabric
 
         Colaboradores colaboradorProcurado = null;
         Boolean achado = false;
@@ -61,7 +61,7 @@ public class Laboratorio {
         return colaboradorProcurado;
     }
 
-    static Projeto getProjeto() {
+    static Projeto getProjeto() { // padrão fabric
         Projeto projetoProcurado = null;
         Boolean achado = false;
         String nomeProjeto;

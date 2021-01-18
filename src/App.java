@@ -19,7 +19,7 @@ public class App {
         limparConsole();
         System.out.print("Digite seu nome:");
         String nomeAdm = teclado.nextLine();
-        Laboratorio lab = new Laboratorio(nomeAdm, teclado);
+        Laboratorio lab = new Laboratorio(nomeAdm, teclado); // padrão Facade
 
         limparConsole();
         System.out.println("Bem-vindo(a), " + nomeAdm + "!");
