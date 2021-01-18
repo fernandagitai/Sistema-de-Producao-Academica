@@ -28,91 +28,155 @@ public class Laboratorio {
         listaPublicacoes = new Vector<Publicacoes>();
     }
 
-    static Colaboradores getColaborador(String nomeColaborador, Vector<Colaboradores> listaColaboradores) {
+    static Colaboradores getColaborador() {
+
         Colaboradores colaboradorProcurado = null;
-        for (int i = 0; i < listaColaboradores.size(); i++) {
-            if (nomeColaborador.equals(listaColaboradores.get(i).getNome())) {
-                colaboradorProcurado = listaColaboradores.get(i);
+        Boolean achado = false;
+        String nomeColaborador;
+
+        while(!achado){
+            limparConsole();
+            System.out.print("Digite o nome do colaborador: ");
+            nomeColaborador = teclado.nextLine();
+
+            for (int i = 0; i < listaColaboradores.size(); i++) {
+                if (nomeColaborador.equals(listaColaboradores.get(i).getNome())) {
+                    colaboradorProcurado = listaColaboradores.get(i);
+                    achado = true;
+                }
+            }
+            if(!achado){
+                System.out.println("Colaborador não encontrado.");
+                System.out.print("Desejas digitar outro nome? (S/N): ");
+
+                String opcao = teclado.nextLine();
+                opcao = opcao.toUpperCase();
+
+                if(opcao.equals("N")){
+                    achado = true;
+                }
             }
         }
+        
         return colaboradorProcurado;
     }
 
-    static Projeto getProjeto(String nomeProjeto, Vector<Projeto> listaProjetos) {
+    static Projeto getProjeto() {
         Projeto projetoProcurado = null;
-        for (int i = 0; i < listaProjetos.size(); i++) {
-            if (nomeProjeto.equals(listaProjetos.get(i).getTitulo())) {
-                projetoProcurado = listaProjetos.get(i);
+        Boolean achado = false;
+        String nomeProjeto;
+
+        while(!achado){
+            limparConsole();
+            System.out.print("Digite o nome do projeto: ");
+            nomeProjeto = teclado.nextLine();
+
+            for (int i = 0; i < listaProjetos.size(); i++) {
+                if (nomeProjeto.equals(listaProjetos.get(i).getTitulo())) {
+                    projetoProcurado = listaProjetos.get(i);
+                    achado = true;
+                }
+            }
+            if(!achado){
+                System.out.println("Projeto não encontrado.");
+                System.out.print("Desejas digitar outro título? (S/N): ");
+
+                String opcao = teclado.nextLine();
+                opcao = opcao.toUpperCase();
+                
+                if(opcao.equals("N")){
+                    achado = true;
+                }
             }
         }
+
         return projetoProcurado;
     }
 
     void consultaColaborador() {
 
         limparConsole();
+        Colaboradores colaborador = null;
 
-        System.out.print("Digite o nome do colaborador: ");
-        String colaboradorConsultado = teclado.nextLine();
-
-        Colaboradores colaborador = getColaborador(colaboradorConsultado, listaColaboradores);
-        colaborador.consulta(teclado);
+        try {
+            colaborador = getColaborador();
+            colaborador.consulta(teclado);
+        } catch (Exception e) {
+            limparConsole();
+            System.out.println("Não foi dado um colaborador.");
+            System.out.print("Digite enter para continuar...");
+            teclado.nextLine();
+        }
     }
 
     void associarColaboradorProjeto() {
 
-        limparConsole();
-        System.out.print("Digite o nome do colaborador: ");
-        String nomeColaborador = teclado.nextLine();
+        Boolean achado = true;
+        Colaboradores colaboradorAssociado = getColaborador();
+        Projeto projetoAssociado = getProjeto();
 
-        limparConsole();
-        System.out.print("Digite o nome do projeto: ");
-        String nomeProjeto = teclado.nextLine();
+        try { // para o colaborador
+            if(!colaboradorAssociado.equals(null)){
+                //condicional generica para testar se o colaborador é nulo
+            }
+        } catch (Exception e) {
+            limparConsole();
+            System.out.println("Não foi dado um colaborador.");
+            achado = false;
+        }
 
-        Colaboradores colaboradorAssociado = getColaborador(nomeColaborador, listaColaboradores);
-        Projeto projetoAssociado = getProjeto(nomeProjeto, listaProjetos);
+        try { // para o projeto
+            if(!projetoAssociado.equals(null)){
+                //condicional generica para testar se o projeto é nulo
+            }
+        } catch (Exception e) {
+            limparConsole();
+            System.out.println("Não foi dado um projeto.");
+            achado = false;
+        }
 
-        if (!colaboradorAssociado.equals(null) && !projetoAssociado.equals(null)) {
+        if(achado){
 
             if ((colaboradorAssociado instanceof Aluno) && colaboradorAssociado.getNumeroProjetos() > 0) {
+                limparConsole();
                 System.out.println("Um aluno de graduação só pode estar associado a um projeto por vez.");
             } else {
                 colaboradorAssociado.associarProjetoColaborador(projetoAssociado);
                 projetoAssociado.adicionarColaborador(teclado, colaboradorAssociado);
+                limparConsole();
                 System.out.println("Autor associado!");
             }
-
-        } else {
-            System.out.println("Este colaborador não foi encontrado.");
         }
+
+        System.out.print("Digite enter para continuar...");
+        teclado.nextLine();
     }
 
     void concluirProjeto() {
 
         limparConsole();
 
-        System.out.print("Digite o nome do projeto: ");
-        String nomeProjeto = teclado.nextLine();
+        Projeto projetoMencionado = getProjeto();
 
-        Projeto projetoMencionado = getProjeto(nomeProjeto, listaProjetos);
-
-        if (projetoMencionado.equals(null)) {
-            System.out.println("Projeto não encontrado.");
-
-        } else {
-            if (projetoMencionado.getStatus().equals("Em andamento")) {
-                if (projetoMencionado.getPublicacoes() > 0) {
-                    projetoMencionado.concluir();
-                    System.out.println("Projeto concluído.");
-
+        try {
+            if(!projetoMencionado.equals(null)){
+                if (projetoMencionado.getStatus().equals("Em andamento")) {
+                    if (projetoMencionado.getPublicacoes() > 0) {
+                        projetoMencionado.concluir();
+                        System.out.println("Projeto concluído.");
+    
+                    } else {
+                        System.out.println("O projeto precisa ter ao menos uma publicação para ser concluído.");
+                    }
+    
                 } else {
-                    System.out.println("O projeto precisa ter ao menos uma publicação para ser concluído.");
+                    System.out.println("O projeto não está em andamento para ser concluído.");
                 }
-
-            } else {
-                System.out.println("O projeto não está em andamento para ser concluído.");
             }
+        } catch (Exception e) {
+            System.out.println("Não foi dado um projeto.");
         }
+
         System.out.print("Digite enter para continuar...");
         teclado.nextLine();
 
@@ -203,45 +267,50 @@ public class Laboratorio {
         Collections.sort(listaPublicacoes);
 
         limparConsole();
-        System.out.print("Digite o projeto associado, caso não exista digite '0': ");
-        String nomeProjeto = teclado.nextLine();
 
-        Projeto projetoMencionado = getProjeto(nomeProjeto, listaProjetos);
+        Projeto projetoMencionado = getProjeto();
 
-        if (projetoMencionado.equals(null)) {
-            System.out.println(
-                    "Este projeto de pesquisa não existe neste laboratório. Nessa publicação será considerada sem projeto de pesquisa associado.");
+        try {
+            if(!projetoMencionado.equals(null)){
+                novaPublicacao.associarProjetoPublicacao(projetoMencionado);
+                projetoMencionado.adicionarPublicacao(novaPublicacao);
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi dado um projeto.");
+            System.out.print("Digite enter para continuar...");
+            teclado.nextLine();
         }
-        novaPublicacao.associarProjetoPublicacao(projetoMencionado);
-        projetoMencionado.adicionarPublicacao(novaPublicacao);
-        // sugestão: passar a classe e não o nome
 
         limparConsole();
+        Boolean acabou = false;
         Integer noAutores = 0;
-        System.out.println(
-                "Digite o nome dos autores da publicação (Digite '0' para encerrar a adição de colaboradores)");
-        System.out.print("Digite o nome de um autor: ");
-        String nomeAutor = teclado.nextLine();
 
-        while (!nomeAutor.equals("0")) {
-            noAutores++;
-            Colaboradores autor = getColaborador(nomeAutor, listaColaboradores);
+        while(!acabou){
+            Colaboradores autor = getColaborador();
 
-            if (!autor.equals(null)) {
-                novaPublicacao.associarAutorPublicacao(autor);
-                autor.associarPublicacaoColaborador(novaPublicacao);
-            } else {
-                System.out.println("Colaborador não encontrado");
-                noAutores--;
+            try {
+                if(!autor.equals(null)){
+                    noAutores++;
+                    novaPublicacao.associarAutorPublicacao(autor);
+                    autor.associarPublicacaoColaborador(novaPublicacao);
+    
+                    limparConsole();
+                    System.out.println("Autor associado!");
+                    System.out.print("Digite enter para continuar...");
+                    teclado.nextLine();
+    
+                }
+            } catch (Exception e) { //autor nulo
+                if(noAutores == 0){
+                    limparConsole();
+                    System.out.println("A publicação deve ter pelo menos um autor.");
+                    System.out.print("Digite enter para continuar...");
+                    teclado.nextLine();
+                } else {
+                    acabou = true;
+                }
+                
             }
-
-            if (noAutores == 0) {
-                System.out.println("A publicação deve ter pelo menos um autor.");
-            }
-
-            limparConsole();
-            System.out.print("Digite o nome de outro autor (Digite '0' para encerrar a adição de colaboradores): ");
-            nomeAutor = teclado.nextLine();
         }
 
     }
